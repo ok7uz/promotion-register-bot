@@ -1,2 +1,2 @@
-# Registration_bot
-Aiogram kutubxonasida yozilgan registratsiya bot kodi
+# Registration Bot
+User Registration Telegram Bot 
