@@ -90,7 +90,11 @@ async def main():
     bot = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)
     dp = Dispatcher()  
     dp.include_routers(command_router, registration_router)
-    await dp.start_polling(bot)  
+    try:
+        await dp.start_polling(bot)
+    except Exception as e:
+        print("An error occurred while polling for updates:", e)
+        await asyncio.sleep(5)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
