@@ -1,9 +1,9 @@
 import asyncio
-import logging
-
 from aiogram import Bot
-from bot import handlers, database
 from aiogram.types import BotCommand
+from loguru import logger
+
+from bot import handlers, database, logging
 from bot.misc import dp, bot
 from bot.texts import START_COMMAND_DESCRIPTION
 
@@ -17,13 +17,15 @@ async def set_commands(bot: Bot):
 
 
 async def on_startup():
+    await logging.setup()
+    logger.info("Configure database ...")
     await database.setup()
-    logging.info("Configure handlers ...")
+    logger.info("Configure handlers ...")
     await handlers.setup(dp)
 
 
 async def on_shutdown():
-    logging.info("Shutting down ...")
+    logger.info("Shutting down ...")
 
 
 async def main():
