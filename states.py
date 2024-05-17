@@ -5,3 +5,5 @@ class RegistrationStates(StatesGroup):
     regName = State()
     regPhone = State()
     regAddress = State()
+    regPhoto = State()
+    regPromoCode = State()

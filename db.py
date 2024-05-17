@@ -9,7 +9,8 @@ class Database:
             id INTEGER PRIMARY KEY,
             name TEXT,
             phone_number TEXT,
-            address TEXT
+            address TEXT,
+            promo_code TEXT
         )''')
         self.connection.commit()
 
@@ -30,12 +31,11 @@ class Database:
     def delete_table(self):
         self.cursor.execute("DROP TABLE IF EXISTS users")
 
-    def update_user(self, id, name, phone_number, address):
-        print(id, name, phone_number, address)
+    def update_user(self, id, name, phone_number, address, promo_code):
         try:
             self.cursor.execute(
-                "UPDATE users SET name=?, phone_number=?, address=? "
-                "WHERE id=?;", (name, phone_number, address, id)
+                "UPDATE users SET name=?, phone_number=?, address=?, promo_code=? WHERE id=?;",
+                (name, phone_number, address, promo_code, id)
             )
             self.connection.commit()
             print("User updated successfully")
@@ -48,7 +48,6 @@ class Database:
             return user.fetchone()
         except sqlite3.Error as e:
             print(f"Error getting user: {e}")
-
 
     def close_connection(self):
         self.cursor.close()

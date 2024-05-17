@@ -1,9 +1,11 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
+from config import SIGN_UP_TEXT, SEND_PHONE_NUMBER_TEXT
+
 reg_kb = ReplyKeyboardMarkup(
     keyboard=[
         [
-            KeyboardButton(text="👤 Ro'yxatdan o'tish")
+            KeyboardButton(text=SIGN_UP_TEXT)
         ]
     ],
     resize_keyboard=True,
@@ -14,7 +16,7 @@ contact_kb = ReplyKeyboardMarkup(
     keyboard=[
         [
             KeyboardButton(
-                text=" 📞Telefon raqamni yuborish📞 ",
+                text=SEND_PHONE_NUMBER_TEXT,
                 request_contact=True
             )
         ]
