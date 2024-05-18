@@ -7,9 +7,6 @@ class User(Model):
     name = fields.CharField(max_length=32)
     phone_number = fields.CharField(max_length=16)
     address = fields.TextField()
-    file_id = fields.CharField(max_length=128)
-    promo_code = fields.CharField(max_length=16)
-    special_code = fields.CharField(max_length=6)
 
     class Meta:
         table = 'users'
@@ -17,3 +14,15 @@ class User(Model):
     def __str__(self):
         return f"[{self.id}] {self.name}"
 
+
+class Promo(Model):
+    user = fields.ForeignKeyField('models.User', on_delete=fields.CASCADE)
+    file_id = fields.CharField(max_length=128)
+    code = fields.CharField(max_length=16, unique=True)
+    special_code = fields.CharField(max_length=6, unique=True)
+
+    class Meta:
+        table = 'promo'
+
+    def __str__(self):
+        return f"{self.user.id}: {self.special_code}"

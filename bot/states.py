@@ -5,5 +5,8 @@ class RegistrationStates(StatesGroup):
     name = State()
     phone = State()
     address = State()
+
+
+class PromoStates(StatesGroup):
     photo = State()
     promoCode = State()

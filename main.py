@@ -5,13 +5,13 @@ from loguru import logger
 
 from bot import handlers, database, logging
 from bot.misc import dp, bot
-from bot.texts import START_COMMAND_DESCRIPTION
+from bot.texts import START_COMMAND_DESCRIPTION, MYPROMOS_COMMAND_DESCRIPTION
 
 
 async def set_commands(bot: Bot):
     commands = [
         BotCommand(command="/start", description=START_COMMAND_DESCRIPTION),
-        BotCommand(command="/list", description="Get help information"),
+        BotCommand(command="/mypromos", description=MYPROMOS_COMMAND_DESCRIPTION),
     ]
     await bot.set_my_commands(commands)
 
