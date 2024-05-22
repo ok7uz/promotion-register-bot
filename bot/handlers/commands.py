@@ -31,3 +31,8 @@ async def list_command(message: Message):
             text += PROMO_TEXT.format(promo.special_code, promo.code)
         return await message.answer(text)
     await message.answer(NO_PROMOS_TEXT)
+
+
+@command_router.message(Command('help'))
+async def help_command(message: Message):
+    await message.answer(HELP_COMMAND_TEXT)

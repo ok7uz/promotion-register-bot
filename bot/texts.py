@@ -1,5 +1,8 @@
-START_COMMAND_DESCRIPTION = "🤖 Botni ishga tushurish"
-MYPROMOS_COMMAND_DESCRIPTION = "🎟 Promo kodlaringiz roʻyxati"
+from config import ADMIN_USERNAME
+
+START_COMMAND_DESCRIPTION = "Botni ishga tushurish"
+MYPROMOS_COMMAND_DESCRIPTION = "Promo kodlaringiz roʻyxati"
+HELP_COMMAND_DESCRIPTION = "Admin bilan bogʻlanish"
 SIGN_UP_TEXT = "👤 Roʻyxatdan oʻtish"
 ENTER_PROMO_TEXT = "🎟 Promo kodni kiritish"
 SEND_PHONE_NUMBER_TEXT = '📞 Telefon raqamni yuborish'
@@ -18,11 +21,12 @@ SPECIAL_CODE_TEXT = '<b>❇️ Aksiyada qatnashish uchun maxsus kodingiz:</b> <c
 USERS_COUNT_TEXT = '👤 <b>Foydalanuvchilar soni:</b> {} ta'
 FOR_ENTER_PROMO_TEXT: str = f"Promo kodni kiritish uchun quyidagi <b>{ENTER_PROMO_TEXT}</b> tugmasini bosing"
 PROMO_SAVED_TEXT = "✅ Promo vaucher ma'lumotlar saqlandi"
-PROMO_HAS_BEEN_USED = "❗️ <b>Bu promo kod avval ishlatilgan. Qaytadan boshqa kiritib koʻring</b>"
+PROMO_HAS_BEEN_USED = "❗️ <b>Bu promo kod avval ishlatilgan. Haqiqatdan mahsulot sizda boʻlsa kuponni videoga olib bizga yuboring @{}</b>"
 USER_PROMOS_COUNT_TEXT = "<b>Siz kiritgan promolar soni {} ta</b>\n\n"
 NO_PROMOS_TEXT = "<b>❌ Siz hali promo kiritmagansiz</b>"
 PROMO_TEXT = '🔸 <code>{}</code> - promo kod: <b>{}</b>\n'
-CHANNELS_TEXT = "<b>🤖 ........ haqida batafsil ma'lumot olish uchun quyidagi kanallarga obuna bo'ling</b>"
+CHANNELS_TEXT = "<b>🤖 Aksiyamiz natijalarini bilish uchun ushbu kanallarimizga obuna boʻling va g’olib boʻlish imkoniyatingizni oshiring</b>"
+HELP_COMMAND_TEXT = "Admin bilan bog'lanish: @{}".format(ADMIN_USERNAME)
 INFO_TEXT = ("<b>✅ Ma'lumotlar saqlandi</b>\n\n"
              "<b>👤 Ism:</b>  {}\n"
              "<b>📞 Telefon raqam:</b>  {}\n"
