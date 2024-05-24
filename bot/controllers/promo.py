@@ -1,6 +1,6 @@
 from loguru import logger
 
-from bot.models import User, Promo
+from bot.models import Promo
 
 
 async def create_promo(user_id: int, file_id: str, code: str):
@@ -22,5 +22,24 @@ async def promo_exists(code: str) -> bool:
 
 
 async def get_user_promos(user_id: int):
-    user = await Promo.filter(user_id=user_id)
-    return user
+    return await Promo.filter(user_id=user_id)
+
+
+async def get_all_promos():
+    promos = await Promo.filter().prefetch_related('user')
+    data = []
+    for promo in promos:
+        user_data = {
+            'Name': promo.user.name,
+            'Phone Number': promo.user.phone_number,
+            'Address': promo.user.address,
+            'PROMO Code': promo.code,
+            'Special Code': promo.special_code,
+            'file_id': promo.file_id
+        }
+        data.append(user_data)
+    return data
+
+
+async def delete_user_promos(phone_number):
+    await Promo.filter(user__phone_number=phone_number).delete()

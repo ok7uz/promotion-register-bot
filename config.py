@@ -5,12 +5,12 @@ load_dotenv()
 
 BOT_TOKEN = getenv('BOT_TOKEN', None)
 DB_NAME = getenv('DB_NAME', None)
-ADMIN_USERNAME = 'admin'
+ADMIN_USERNAME = 'https://t.me/chikako_admin_1'
 
 CHANNELS = [
     {
         'name': 'Telegram',
-        'link': 'http://t.me/Orikzor_supermarket'
+        'link': 'https://t.me/Orikzor_supermarket'
     },
     {
         'name': 'Instagram',

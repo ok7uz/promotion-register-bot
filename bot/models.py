@@ -25,4 +25,14 @@ class Promo(Model):
         table = 'promo'
 
     def __str__(self):
-        return f"{self.user.id}: {self.special_code}"
+        return f"{self.user}: {self.special_code}"
+
+
+class BlockedUser(Model):
+    phone_number = fields.CharField(max_length=16)
+
+    class Meta:
+        table = 'blocked_user'
+
+    def __str__(self):
+        return self.phone_number

@@ -1,3 +1,5 @@
+from asyncio import sleep
+
 from aiogram import Router
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
@@ -5,6 +7,7 @@ from aiogram.fsm.context import FSMContext
 from bot.controllers.promo import create_promo, promo_exists
 from bot.markups.inline_markups import channels_kb
 from bot.markups.reply_markups import promo_kb
+from bot.misc import bot
 from bot.states import PromoStates
 from bot.texts import *
 
@@ -13,6 +16,8 @@ promo_router = Router()
 
 @promo_router.message(PromoStates.photo)
 async def register_promo_photo(message: Message, state: FSMContext):
+    await bot.send_chat_action(message.chat.id, 'typing')
+    await sleep(0.5)
     photo = message.photo
     if not photo:
         await message.answer(ENTER_PHOTO_TEXT)
@@ -26,6 +31,8 @@ async def register_promo_photo(message: Message, state: FSMContext):
 
 @promo_router.message(PromoStates.promoCode)
 async def register_promo_code(message: Message, state: FSMContext):
+    await bot.send_chat_action(message.chat.id, 'typing')
+    await sleep(0.5)
     promo_code = message.text
     await state.update_data(code=promo_code)
     promo_data = await state.get_data()
@@ -38,4 +45,4 @@ async def register_promo_code(message: Message, state: FSMContext):
         await message.answer(CHANNELS_TEXT, reply_markup=channels_kb())
         return await state.clear()
     await message.answer(PROMO_HAS_BEEN_USED, reply_markup=promo_kb())
-    await state.clear()
+  

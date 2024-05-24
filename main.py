@@ -13,8 +13,9 @@ async def set_commands(bot: Bot):
         BotCommand(command="/start", description=START_COMMAND_DESCRIPTION),
         BotCommand(command="/mypromos", description=MYPROMOS_COMMAND_DESCRIPTION),
         BotCommand(command="/help", description=HELP_COMMAND_DESCRIPTION),
+        BotCommand(command="/export", description=EXPORT_COMMAND_DESCRIPTION),
+        BotCommand(command="/block", description=BLOCK_COMMAND_DESCRIPTION),
     ]
-    print(commands)
     await bot.set_my_commands(commands)
 
 

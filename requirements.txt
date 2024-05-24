@@ -2,3 +2,5 @@ aiogram~=3.6.0
 loguru~=0.7.2
 python-dotenv~=1.0.1
 tortoise-orm~=0.20.1
+pandas~=2.2.2
+openpyxl~=3.1.2

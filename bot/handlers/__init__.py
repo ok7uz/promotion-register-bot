@@ -1,5 +1,6 @@
 from aiogram import Dispatcher
 
+from .block_user import router
 from .commands import command_router
 from .registration import registration_router
 from .messages import message_router
@@ -11,5 +12,6 @@ async def setup(dp: Dispatcher):
         command_router,
         registration_router,
         message_router,
-        promo_router
+        promo_router,
+        router
     )
