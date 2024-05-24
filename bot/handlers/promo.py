@@ -1,17 +1,31 @@
 from asyncio import sleep
 
-from aiogram import Router
-from aiogram.types import Message
+from aiogram import Router, F
+from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
 from bot.controllers.promo import create_promo, promo_exists
-from bot.markups.inline_markups import channels_kb
-from bot.markups.reply_markups import promo_kb
+from bot.controllers.user import user_exists
+from bot.markups.inline_markups import channels_kb, promo_kb, register_kb, promo_callback_data
 from bot.misc import bot
 from bot.states import PromoStates
 from bot.texts import *
 
 promo_router = Router()
+
+
+@promo_router.callback_query(lambda query: query.data == promo_callback_data)
+async def enter_promo(callback_query: CallbackQuery, state: FSMContext):
+    message = callback_query.message
+    await bot.send_chat_action(message.chat.id, 'typing')
+    await sleep(0.5)
+    await message.delete()
+    if await user_exists(callback_query.from_user.id):
+        await message.answer(ENTER_PROMO_PHOTO_TEXT)
+        await state.set_state(PromoStates.photo)
+    else:
+        await message.answer(text=START_TEXT, reply_markup=register_kb())
+
 
 
 @promo_router.message(PromoStates.photo)

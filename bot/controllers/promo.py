@@ -1,6 +1,6 @@
 from loguru import logger
 
-from bot.models import Promo
+from bot.models import Promo, User
 
 
 async def create_promo(user_id: int, file_id: str, code: str):
@@ -30,16 +30,18 @@ async def get_all_promos():
     data = []
     for promo in promos:
         user_data = {
-            'Name': promo.user.name,
-            'Phone Number': promo.user.phone_number,
-            'Address': promo.user.address,
-            'PROMO Code': promo.code,
-            'Special Code': promo.special_code,
-            'file_id': promo.file_id
+            'Ism': promo.user.name,
+            'Telefon raqam': promo.user.phone_number,
+            'Manzil': promo.user.address,
+            'PROMO Kod': promo.code,
+            'Maxsus kod': promo.special_code,
+            'file_id': promo.file_id,
+            'Rasm': None
         }
         data.append(user_data)
     return data
 
 
 async def delete_user_promos(phone_number):
-    await Promo.filter(user__phone_number=phone_number).delete()
+    user = await User.get_or_none(phone_number=phone_number)
+    await user.promos.all().delete() if user else None

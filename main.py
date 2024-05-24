@@ -2,6 +2,9 @@ import asyncio
 from aiogram import Bot
 from aiogram.types import BotCommand
 from loguru import logger
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from bot import handlers, database, logging
 from bot.misc import dp, bot

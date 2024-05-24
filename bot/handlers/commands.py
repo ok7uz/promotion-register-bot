@@ -3,12 +3,12 @@ from asyncio import sleep
 import pandas as pd
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, FSInputFile, chat_permissions
+from aiogram.types import Message, FSInputFile, ReplyKeyboardRemove
 from aiogram.filters import CommandStart, Command
 
 from bot.controllers.promo import get_user_promos, get_all_promos
 from bot.controllers.user import get_user, user_exists
-from bot.markups.reply_markups import register_kb, promo_kb
+from bot.markups.inline_markups import promo_kb, register_kb
 from bot.misc import bot
 from bot.states import BlockStates
 from bot.texts import *
@@ -25,7 +25,7 @@ async def start_command(message: Message):
         await message.reply(text=START_TEXT, reply_markup=register_kb())
     else:
         user = await get_user(message.from_user.id)
-        await message.answer(WELCOME_TEXT.format(message.from_user.id, user.name))
+        await message.answer(WELCOME_TEXT.format(message.from_user.id, user.name), reply_markup=ReplyKeyboardRemove())
         await message.answer(FOR_ENTER_PROMO_TEXT, reply_markup=promo_kb())
 
 
@@ -45,26 +45,28 @@ async def list_command(message: Message):
 @command_router.message(Command('help'))
 async def help_command(message: Message):
     await bot.send_chat_action(message.chat.id, 'typing')
-    await sleep(0.5)
+    await sleep(0.2)
     await message.answer(HELP_COMMAND_TEXT)
 
 
 @command_router.message(Command('export'))
 async def help_command(message: Message):
-    await bot.send_chat_action(message.chat.id, 'typing')
-    await sleep(0.5)
     promos = await get_all_promos()
     if promos:
         msg1 = await message.answer('⏳')
+        await bot.send_chat_action(message.chat.id, 'typing')
+        await sleep(0.2)
         msg2 = await message.answer(GETTING_READY_TEXT)
         df = pd.DataFrame(promos)
         excel_file_name = 'data.xlsx'
         await save_to_excel(df, excel_file_name)
         await bot.send_chat_action(message.chat.id, 'upload_document')
-        await message.answer_document(FSInputFile(excel_file_name))
         await msg1.delete()
         await msg2.delete()
+        await message.answer_document(FSInputFile(excel_file_name))
     else:
+        await bot.send_chat_action(message.chat.id, 'typing')
+        await sleep(0.2)
         await message.answer(NO_DATA_TEXT)
 
 

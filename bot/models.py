@@ -16,7 +16,7 @@ class User(Model):
 
 
 class Promo(Model):
-    user = fields.ForeignKeyField('models.User', on_delete=fields.CASCADE)
+    user = fields.ForeignKeyField('models.User', related_name='promos', on_delete=fields.CASCADE)
     file_id = fields.CharField(max_length=128)
     code = fields.CharField(max_length=16, unique=True)
     special_code = fields.CharField(max_length=6, unique=True)

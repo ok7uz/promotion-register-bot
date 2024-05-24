@@ -18,7 +18,7 @@ async def save_to_excel(df, file_name):
     worksheet.column_dimensions['C'].width = 50
     worksheet.column_dimensions['D'].width = 15
     worksheet.column_dimensions['E'].width = 15
-    worksheet.column_dimensions['F'].width = img_width
+    worksheet.column_dimensions['F'].width = img_width // 8
 
     for index, row in df.iterrows():
         file_id = row['file_id']
@@ -31,6 +31,6 @@ async def save_to_excel(df, file_name):
             img.height = int(img.height * img.width / old_width)
             img.anchor = f'F{index + 2}'
             worksheet.add_image(img)
-            worksheet.row_dimensions[index + 2].height = img.height
+            worksheet.row_dimensions[index + 2].height = img.height * 3 // 4
 
     excel_writer.close()

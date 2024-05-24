@@ -5,7 +5,7 @@ load_dotenv()
 
 BOT_TOKEN = getenv('BOT_TOKEN', None)
 DB_NAME = getenv('DB_NAME', None)
-ADMIN_USERNAME = 'https://t.me/chikako_admin_1'
+ADMIN_USERNAME = 'chikako_admin_1'
 
 CHANNELS = [
     {

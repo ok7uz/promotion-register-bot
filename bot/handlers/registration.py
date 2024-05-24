@@ -1,16 +1,31 @@
 from aiogram import Router
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from aiogram.types import ReplyKeyboardRemove
 from asyncio import sleep
 
-from bot.controllers.user import create_user
-from bot.markups.reply_markups import contact_kb, promo_kb
+from bot.controllers.user import create_user, user_exists
 from bot.misc import bot
 from bot.states import RegistrationStates
 from bot.texts import *
+from bot.markups.inline_markups import promo_kb, register_callback_data
+from bot.markups.reply_markups import contact_kb
 
 registration_router = Router()
+
+
+
+@registration_router.callback_query(lambda query: query.data == register_callback_data)
+async def register_user(callback_query: CallbackQuery, state: FSMContext):
+    message = callback_query.message
+    await bot.send_chat_action(message.chat.id, 'typing')
+    await sleep(0.5)
+    await message.delete()
+    if await user_exists(callback_query.from_user.id):
+        await message.answer(SIGNED_UP_TEXT.format(callback_query.from_user.full_name), reply_markup=ReplyKeyboardRemove())
+    else:
+        await message.answer(ENTER_NAME_TEXT, reply_markup=ReplyKeyboardRemove())
+        await state.set_state(RegistrationStates.name)
 
 
 @registration_router.message(RegistrationStates.name)
