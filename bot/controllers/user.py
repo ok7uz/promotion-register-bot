@@ -1,7 +1,7 @@
 from typing import Optional
 from loguru import logger
 
-from bot.models import User
+from bot.models import BlockedUser, Promo, User
 
 
 async def create_user(user_id: int, name: str, phone_number: str, address: str) -> Optional[User]:
@@ -27,3 +27,9 @@ async def get_user(user_id: int) -> User:
 async def get_all_users():
     users = await User.all()
     return users
+
+
+async def delete_all_data():
+    await BlockedUser.all().delete()
+    await Promo.all().delete()
+    await User.all().delete()

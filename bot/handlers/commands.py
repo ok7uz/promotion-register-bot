@@ -6,10 +6,12 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, FSInputFile, ReplyKeyboardRemove
 from aiogram.filters import CommandStart, Command
 
+from bot.controllers.blocked_user import is_user_blocked
 from bot.controllers.promo import get_user_promos, get_all_promos
-from bot.controllers.user import get_user, user_exists
+from bot.controllers.user import delete_all_data, get_user, user_exists
 from bot.markups.inline_markups import promo_kb, register_kb
 from bot.misc import bot
+from bot.models import BlockedUser
 from bot.states import BlockStates
 from bot.texts import *
 from bot.utils import save_to_excel
@@ -19,21 +21,28 @@ command_router = Router()
 
 @command_router.message(CommandStart())
 async def start_command(message: Message):
+    user = await get_user(message.from_user.id)
+    if user and await is_user_blocked(user.phone_number):
+        return
     await bot.send_chat_action(message.chat.id, 'typing')
-    await sleep(0.5)
+    await sleep(0.2)
     if not await user_exists(message.from_user.id):
         await message.reply(text=START_TEXT, reply_markup=register_kb())
     else:
         user = await get_user(message.from_user.id)
         await message.answer(WELCOME_TEXT.format(message.from_user.id, user.name), reply_markup=ReplyKeyboardRemove())
+        await bot.send_chat_action(message.chat.id, 'typing')
+        await sleep(0.2)
         await message.answer(FOR_ENTER_PROMO_TEXT, reply_markup=promo_kb())
 
 
 @command_router.message(Command('mypromos'))
 async def list_command(message: Message):
+    user = await get_user(message.from_user.id)
+    if user and await is_user_blocked(user.phone_number):
+        return
     user_promos = await get_user_promos(message.from_user.id)
     count = len(user_promos)
-
     if count:
         text = USER_PROMOS_COUNT_TEXT.format(count)
         for promo in user_promos:
@@ -72,5 +81,15 @@ async def help_command(message: Message):
 
 @command_router.message(Command('block'))
 async def block_command(message: Message, state: FSMContext):
+    await bot.send_chat_action(message.chat.id, 'typing')
+    await sleep(0.2)
     await message.answer(ASK_BLOCK_USER_PHONE_NUMBER_TEXT)
     await state.set_state(BlockStates.phone)
+
+
+@command_router.message(Command('deldata'))
+async def block_command(message: Message, state: FSMContext):
+    await bot.send_chat_action(message.chat.id, 'typing')
+    await sleep(0.2)
+    await delete_all_data()
+    await message.answer('✅')

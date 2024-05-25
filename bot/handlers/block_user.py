@@ -16,7 +16,7 @@ router = Router()
 @router.message(BlockStates.phone)
 async def get_blocking_phone_number(message: Message, state: FSMContext):
     await bot.send_chat_action(message.chat.id, 'typing')
-    await sleep(0.5)
+    await sleep(0.2)
     phone_number = message.text
     phone_number = phone_number.replace(' ', '')
     phone_number = '+' + phone_number if not phone_number.startswith('+') else phone_number
