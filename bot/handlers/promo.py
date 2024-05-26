@@ -11,6 +11,7 @@ from bot.markups.inline_markups import channels_kb, promo_kb, register_kb, promo
 from bot.misc import bot
 from bot.states import PromoStates
 from bot.texts import *
+from config import ADMIN_USERNAME
 
 promo_router = Router()
 
@@ -66,5 +67,5 @@ async def register_promo_code(message: Message, state: FSMContext):
         await sleep(0.2)
         await message.answer(CHANNELS_TEXT, reply_markup=channels_kb())
         return await state.clear()
-    await message.answer(PROMO_HAS_BEEN_USED, reply_markup=promo_kb())
+    await message.answer(PROMO_HAS_BEEN_USED.format(ADMIN_USERNAME), reply_markup=promo_kb())
   

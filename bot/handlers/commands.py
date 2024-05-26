@@ -11,16 +11,17 @@ from bot.controllers.promo import get_user_promos, get_all_promos
 from bot.controllers.user import delete_all_data, get_user, user_exists
 from bot.markups.inline_markups import promo_kb, register_kb
 from bot.misc import bot
-from bot.models import BlockedUser
 from bot.states import BlockStates
 from bot.texts import *
 from bot.utils import save_to_excel
+from config import ADMIN_USERNAME, ADMINS
 
 command_router = Router()
 
 
 @command_router.message(CommandStart())
 async def start_command(message: Message):
+    print(ADMINS)
     user = await get_user(message.from_user.id)
     if user and await is_user_blocked(user.phone_number):
         return
@@ -55,11 +56,13 @@ async def list_command(message: Message):
 async def help_command(message: Message):
     await bot.send_chat_action(message.chat.id, 'typing')
     await sleep(0.2)
-    await message.answer(HELP_COMMAND_TEXT)
+    await message.answer(HELP_COMMAND_TEXT.format(ADMIN_USERNAME))
 
 
 @command_router.message(Command('export'))
 async def help_command(message: Message):
+    if message.from_user.id not in ADMINS:
+        return
     promos = await get_all_promos()
     if promos:
         msg1 = await message.answer('⏳')
@@ -81,6 +84,8 @@ async def help_command(message: Message):
 
 @command_router.message(Command('block'))
 async def block_command(message: Message, state: FSMContext):
+    if message.from_user.id not in ADMINS:
+        return
     await bot.send_chat_action(message.chat.id, 'typing')
     await sleep(0.2)
     await message.answer(ASK_BLOCK_USER_PHONE_NUMBER_TEXT)
@@ -89,6 +94,8 @@ async def block_command(message: Message, state: FSMContext):
 
 @command_router.message(Command('deldata'))
 async def block_command(message: Message, state: FSMContext):
+    if message.from_user.id not in ADMINS:
+        return
     await bot.send_chat_action(message.chat.id, 'typing')
     await sleep(0.2)
     await delete_all_data()

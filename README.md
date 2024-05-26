@@ -6,7 +6,7 @@ User Registration Telegram Bot
 
 - [x] Restrict the access of the blocked user
 - [x] Sleep before send message
-- [ ] Separate of admin and user commands
+- [x] Separate of admin and user commands
 - [x] Add a special command to delete all data from the database
-- [ ] Editing texts
+- [x] Editing texts
 - [ ] Code optimization (via ChatGPT)

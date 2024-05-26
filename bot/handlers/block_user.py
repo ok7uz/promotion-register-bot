@@ -22,5 +22,5 @@ async def get_blocking_phone_number(message: Message, state: FSMContext):
     phone_number = '+' + phone_number if not phone_number.startswith('+') else phone_number
     await create_blocked_user(phone_number)
     await delete_user_promos(phone_number)
-    await message.answer("block qilindi va barcha promo kodlari o'chirildi")
+    await message.answer(USER_BLOCKED_TEXT.format(phone_number))
     await state.clear()

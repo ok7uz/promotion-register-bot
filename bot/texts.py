@@ -1,5 +1,3 @@
-from config import ADMIN_USERNAME
-
 START_COMMAND_DESCRIPTION = "Botni ishga tushurish"
 MYPROMOS_COMMAND_DESCRIPTION = "Promo kodlaringiz roʻyxati"
 HELP_COMMAND_DESCRIPTION = "Admin bilan bogʻlanish"
@@ -15,7 +13,7 @@ SIGNED_UP_TEXT = "🤖 Hurmatli {}, siz roʻyxatdan oʻtgansiz"
 ENTER_NAME_TEXT = "✍️ Iltimos ismingizni kiriting"
 ENTER_PHONE_NUMBER_TEXT = "📞 Iltimos telefon raqamingizni yuboring"
 ENTER_ADDRESS_TEXT = "🏠 Yashash manzilingiz:"
-ENTER_PROMO_PHOTO_TEXT = "🖼 Promo kod rasmini yuboring:"
+ENTER_PROMO_PHOTO_TEXT = "🖼 Promo kod rasmini yuboring"
 ENTER_PHOTO_TEXT = "🖼 Rasm koʻrinishida yuboring"
 PHOTO_SAVED_TEXT = "🖼 Rasm saqlandi"
 ENTER_PROMO_CODE_TEXT = "🎟 Promo kodni kiriting"
@@ -25,7 +23,7 @@ USERS_COUNT_TEXT = '👤 <b>Foydalanuvchilar soni:</b> {} ta'
 FOR_ENTER_PROMO_TEXT: str = f"Promo kodni kiritish uchun quyidagi <b>{ENTER_PROMO_TEXT}</b> tugmasini bosing"
 PROMO_SAVED_TEXT = "✅ Promo vaucher ma'lumotlar saqlandi"
 PROMO_HAS_BEEN_USED = ('❗️ <b>Bu promo kod avval ishlatilgan. Haqiqatdan mahsulot sizda boʻlsa kuponni videoga olib '
-                       'bizga yuboring <a href="{}">ADMIN</a></b>'.format(ADMIN_USERNAME))
+                       'bizga yuboring <a href="{}">ADMIN</a></b>')
 USER_PROMOS_COUNT_TEXT = "<b>Siz kiritgan promolar soni {} ta</b>\n\n"
 NO_PROMOS_TEXT = "<b>❌ Siz hali promo kiritmagansiz</b>"
 PROMO_TEXT = '🔸 <code>{}</code> - promo kod: <b>{}</b>\n'
@@ -35,9 +33,10 @@ CHANNELS_TEXT = ("<b>Hurmatli mijoz. Biz bilan birga ekanligingizdan xursandmiz.
                  "stikerga shikastlamagan holda saqlashi zarur. Stiker qadoqdan olingan  va muhr oʻrnidan siljigan "
                  "holda boʻlsa hisobga olinmaydi.</i>\n\n<b>Aksiya jarayonlarini, gʻoliblar va oʻyinni kuzatish uchun ushbu "
                  "kanallarimizga obuna boʻling.</b>")
-HELP_COMMAND_TEXT = '<b>Admin bilan bogʻlanish:</b> 🧑‍💼 @{}'.format(ADMIN_USERNAME)
-ASK_BLOCK_USER_PHONE_NUMBER_TEXT = 'Blok qilinadigan foydalanuvchining <b>telefon raqami</b>ni kiriting'
-NO_DATA_TEXT = "<b>❌ Ma'lumotlar yoʻq</b>"
+HELP_COMMAND_TEXT = '<b>Admin bilan bogʻlanish:</b> 🧑‍💼 @{}'
+ASK_BLOCK_USER_PHONE_NUMBER_TEXT = '🚫 Blok qilinadigan foydalanuvchining <b>telefon raqami</b>ni kiriting'
+USER_BLOCKED_TEXT = '<b>{}</b>\n🚫 Foydalanuvchi bloklandi va barcha kiritgan malumotlari oʻchirildi'
+NO_DATA_TEXT = "<b>❌ Hozircha hech qanday ma'lumot yoʻq</b>"
 INFO_TEXT = ("<b>✅ Ma'lumotlar saqlandi</b>\n\n"
              "<b>👤 Ism:</b>  {}\n"
              "<b>📞 Telefon raqam:</b>  {}\n"
