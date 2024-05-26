@@ -4,33 +4,53 @@ from openpyxl.drawing.image import Image
 from bot.misc import bot
 
 
-async def save_to_excel(df, file_name):
-    df_without_file_id = df.drop(columns=['file_id'])
+async def save_to_excel(df: pd.DataFrame, file_name: str) -> None:
+    """
+    Save a DataFrame to an Excel file with embedded images.
 
-    excel_writer = pd.ExcelWriter(file_name, engine='openpyxl')
-    df_without_file_id.to_excel(excel_writer, index=False, sheet_name='Promos')
+    Args:
+        df (pd.DataFrame): The DataFrame to save.
+        file_name (str): The name of the Excel file to save.
 
-    workbook = excel_writer.book
-    worksheet = workbook['Promos']
-    img_width = 80
-    worksheet.column_dimensions['A'].width = 25
-    worksheet.column_dimensions['B'].width = 15
-    worksheet.column_dimensions['C'].width = 50
-    worksheet.column_dimensions['D'].width = 15
-    worksheet.column_dimensions['E'].width = 15
-    worksheet.column_dimensions['F'].width = img_width // 8
+    """
+    try:
+        # Drop the 'file_id' column for the DataFrame to be saved
+        df_without_file_id = df.drop(columns=['file_id'])
+        
+        # Create an Excel writer using openpyxl engine
+        with pd.ExcelWriter(file_name, engine='openpyxl') as excel_writer:
+            df_without_file_id.to_excel(excel_writer, index=False, sheet_name='Promos')
+            workbook = excel_writer.book
+            worksheet = workbook['Promos']
 
-    for index, row in df.iterrows():
-        file_id = row['file_id']
-        file = await bot.get_file(file_id)
-        image = await bot.download_file(file.file_path)
-        if image:
-            img = Image(image)
-            old_width = img.width
-            img.width = img_width
-            img.height = int(img.height * img.width / old_width)
-            img.anchor = f'F{index + 2}'
-            worksheet.add_image(img)
-            worksheet.row_dimensions[index + 2].height = img.height * 3 // 4
+            # Set column widths
+            img_width = 80
+            worksheet.column_dimensions['A'].width = 25
+            worksheet.column_dimensions['B'].width = 15
+            worksheet.column_dimensions['C'].width = 50
+            worksheet.column_dimensions['D'].width = 15
+            worksheet.column_dimensions['E'].width = 15
+            worksheet.column_dimensions['F'].width = img_width // 8
 
-    excel_writer.close()
+            # Add images to the worksheet
+            for index, row in df.iterrows():
+                file_id = row.get('file_id')
+                if file_id:
+                    try:
+                        file = await bot.get_file(file_id)
+                        image = await bot.download_file(file.file_path)
+                        if image:
+                            img = Image(image)
+                            old_width = img.width
+                            img.width = img_width
+                            img.height = int(img.height * img.width / old_width)
+                            img.anchor = f'F{index + 2}'
+                            worksheet.add_image(img)
+                            worksheet.row_dimensions[index + 2].height = img.height * 3 // 4
+                    except Exception as e:
+                        print(f"Failed to process image for file_id {file_id}: {e}")
+            # The Excel writer context manager ensures the file is saved and closed properly
+
+    except Exception as e:
+        print(f"Failed to save DataFrame to Excel: {e}")
+        raise

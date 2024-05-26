@@ -13,22 +13,34 @@ from bot.misc import dp, bot
 
 
 async def set_commands(bot: Bot):
-    await bot.set_my_commands(USER_COMMANDS, scope=BotCommandScopeDefault())
-
-    for admin_user_id in ADMINS:
-        await bot.set_my_commands(ADMIN_COMMANDS, scope=BotCommandScopeChat(chat_id=admin_user_id))
+    try:
+        await bot.set_my_commands(USER_COMMANDS, scope=BotCommandScopeDefault())
+        for admin_user_id in ADMINS:
+            await bot.set_my_commands(ADMIN_COMMANDS, scope=BotCommandScopeChat(chat_id=admin_user_id))
+        logger.info("Commands set successfully")
+    except Exception as e:
+        logger.error(f"Error setting commands: {e}")
 
 
 async def on_startup():
-    await logging.setup()
-    logger.info("Configure database ...")
-    await database.setup()
-    logger.info("Configure handlers ...")
-    await handlers.setup(dp)
+    try:
+        await logging.setup_logging()
+        logger.info("Configuring database ...")
+        await database.setup()
+        logger.info("Configuring handlers ...")
+        await handlers.setup(dp)
+        logger.info("Startup complete")
+    except Exception as e:
+        logger.error(f"Error during startup: {e}")
 
 
 async def on_shutdown():
-    logger.info("Shutting down ...")
+    try:
+        logger.info("Shutting down ...")
+        await database.close()
+        logger.info("Shutdown complete")
+    except Exception as e:
+        logger.error(f"Error during shutdown: {e}")
 
 
 async def main():

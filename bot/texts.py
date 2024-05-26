@@ -1,43 +1,68 @@
+# Command Descriptions
 START_COMMAND_DESCRIPTION = "Botni ishga tushurish"
 MYPROMOS_COMMAND_DESCRIPTION = "Promo kodlaringiz roʻyxati"
 HELP_COMMAND_DESCRIPTION = "Admin bilan bogʻlanish"
 EXPORT_COMMAND_DESCRIPTION = "Ma'lumotlarni olish"
 BLOCK_COMMAND_DESCRIPTION = "Foydalanuvchilarni blok qilish"
+
+# Button Texts
 SIGN_UP_TEXT = "👤 Roʻyxatdan oʻtish"
 ENTER_PROMO_TEXT = "🎟 Promo kodni kiritish"
 ENTER_ONE_MORE_PROMO_TEXT = "🎟 Yana promo kod kiritish"
 SEND_PHONE_NUMBER_TEXT = '📞 Telefon raqamni yuborish'
+
+# Start and Welcome Texts
 START_TEXT = "🤖 Assalomu alaykum. Botdan foydalanish uchun roʻyxatdan oʻtishingiz kerak."
 WELCOME_TEXT = "🤖 Assalomu alaykum <b><a href='tg://user?id={}'>{}</a>!</b>"
 SIGNED_UP_TEXT = "🤖 Hurmatli {}, siz roʻyxatdan oʻtgansiz"
+
+# Registration Prompts
 ENTER_NAME_TEXT = "✍️ Iltimos ismingizni kiriting"
 ENTER_PHONE_NUMBER_TEXT = "📞 Iltimos telefon raqamingizni yuboring"
 ENTER_ADDRESS_TEXT = "🏠 Yashash manzilingiz:"
+
+# Promo Code Prompts and Texts
 ENTER_PROMO_PHOTO_TEXT = "🖼 Promo kod rasmini yuboring"
 ENTER_PHOTO_TEXT = "🖼 Rasm koʻrinishida yuboring"
 PHOTO_SAVED_TEXT = "🖼 Rasm saqlandi"
 ENTER_PROMO_CODE_TEXT = "🎟 Promo kodni kiriting"
 DATA_SAVED_TEXT = "✅ Ma'lumotlar saqlandi"
 SPECIAL_CODE_TEXT = '<b>❇️ Aksiyada qatnashish uchun maxsus kodingiz:</b> <code>{}</code>'
+
+# User Info Texts
 USERS_COUNT_TEXT = '👤 <b>Foydalanuvchilar soni:</b> {} ta'
-FOR_ENTER_PROMO_TEXT: str = f"Promo kodni kiritish uchun quyidagi <b>{ENTER_PROMO_TEXT}</b> tugmasini bosing"
+FOR_ENTER_PROMO_TEXT = f"Promo kodni kiritish uchun quyidagi <b>{ENTER_PROMO_TEXT}</b> tugmasini bosing"
 PROMO_SAVED_TEXT = "✅ Promo vaucher ma'lumotlar saqlandi"
-PROMO_HAS_BEEN_USED = ('❗️ <b>Bu promo kod avval ishlatilgan. Haqiqatdan mahsulot sizda boʻlsa kuponni videoga olib '
-                       'bizga yuboring <a href="{}">ADMIN</a></b>')
+PROMO_HAS_BEEN_USED = (
+    '❗️ <b>Bu promo kod avval ishlatilgan. Haqiqatdan mahsulot sizda boʻlsa kuponni videoga olib '
+    'bizga yuboring <a href="{}">ADMIN</a></b>'
+)
 USER_PROMOS_COUNT_TEXT = "<b>Siz kiritgan promolar soni {} ta</b>\n\n"
 NO_PROMOS_TEXT = "<b>❌ Siz hali promo kiritmagansiz</b>"
 PROMO_TEXT = '🔸 <code>{}</code> - promo kod: <b>{}</b>\n'
+
+# Loading and Channel Info Texts
 GETTING_READY_TEXT = "<b>Ma'lumotlar yuklanyapti...</b>"
-CHANNELS_TEXT = ("<b>Hurmatli mijoz. Biz bilan birga ekanligingizdan xursandmiz. Aksiya ishtirokchisiga aylanganingiz bilan"
-                 " tabriklaymiz.</b>\n\n<b>⚠️ Eslatma:</b> <i>Aksiya gʻolibi sovgʻani olishi uchun taglik qadogʻiga yopishtirilgan "
-                 "stikerga shikastlamagan holda saqlashi zarur. Stiker qadoqdan olingan  va muhr oʻrnidan siljigan "
-                 "holda boʻlsa hisobga olinmaydi.</i>\n\n<b>Aksiya jarayonlarini, gʻoliblar va oʻyinni kuzatish uchun ushbu "
-                 "kanallarimizga obuna boʻling.</b>")
+CHANNELS_TEXT = (
+    "<b>Hurmatli mijoz. Biz bilan birga ekanligingizdan xursandmiz. Aksiya ishtirokchisiga aylanganingiz bilan"
+    " tabriklaymiz.</b>\n\n<b>⚠️ Eslatma:</b> <i>Aksiya gʻolibi sovgʻani olishi uchun taglik qadogʻiga yopishtirilgan "
+    "stikerga shikastlamagan holda saqlashi zarur. Stiker qadoqdan olingan va muhr oʻrnidan siljigan "
+    "holda boʻlsa hisobga olinmaydi.</i>\n\n<b>Aksiya jarayonlarini, gʻoliblar va oʻyinni kuzatish uchun ushbu "
+    "kanallarimizga obuna boʻling.</b>"
+)
 HELP_COMMAND_TEXT = '<b>Admin bilan bogʻlanish:</b> 🧑‍💼 @{}'
+
+# Block User Texts
 ASK_BLOCK_USER_PHONE_NUMBER_TEXT = '🚫 Blok qilinadigan foydalanuvchining <b>telefon raqami</b>ni kiriting'
 USER_BLOCKED_TEXT = '<b>{}</b>\n🚫 Foydalanuvchi bloklandi va barcha kiritgan malumotlari oʻchirildi'
+
+# No Data Texts
 NO_DATA_TEXT = "<b>❌ Hozircha hech qanday ma'lumot yoʻq</b>"
-INFO_TEXT = ("<b>✅ Ma'lumotlar saqlandi</b>\n\n"
-             "<b>👤 Ism:</b>  {}\n"
-             "<b>📞 Telefon raqam:</b>  {}\n"
-             "<b>🏠 Yashash manzil:</b>  {}")
+
+# Information Text
+INFO_TEXT = (
+    "<b>✅ Ma'lumotlar saqlandi</b>\n\n"
+    "<b>👤 Ism:</b>  {}\n"
+    "<b>📞 Telefon raqam:</b>  {}\n"
+    "<b>🏠 Yashash manzil:</b>  {}"
+)
