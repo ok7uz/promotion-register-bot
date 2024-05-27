@@ -1,6 +1,7 @@
 from loguru import logger
 from bot.models import Promo, User
 
+
 async def create_promo(user_id: int, file_id: str, code: str):
     """
     Create a new promo in the database.
@@ -29,6 +30,7 @@ async def create_promo(user_id: int, file_id: str, code: str):
         logger.error(f'Failed to create promo: {e}')
         raise
 
+
 async def promo_exists(code: str) -> bool:
     """
     Check if a promo with the given code exists in the database.
@@ -45,6 +47,7 @@ async def promo_exists(code: str) -> bool:
         logger.error(f'Failed to check promo existence for code {code}: {e}')
         return False
 
+
 async def get_user_promos(user_id: int):
     """
     Get all promos associated with a user.
@@ -60,6 +63,7 @@ async def get_user_promos(user_id: int):
     except Exception as e:
         logger.error(f'Failed to get promos for user #{user_id}: {e}')
         return []
+
 
 async def get_all_promos():
     """
@@ -86,6 +90,7 @@ async def get_all_promos():
     except Exception as e:
         logger.error(f'Failed to get all promos: {e}')
         return []
+
 
 async def delete_user_promos(phone_number):
     """

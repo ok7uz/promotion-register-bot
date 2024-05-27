@@ -1,5 +1,5 @@
 from asyncio import sleep
-from aiogram import Router, F
+from aiogram import Router
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from bot.controllers.blocked_user import is_user_blocked

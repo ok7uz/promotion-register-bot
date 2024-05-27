@@ -2,21 +2,17 @@ import asyncio
 from aiogram import Bot
 from aiogram.types import BotCommandScopeDefault, BotCommandScopeChat
 from loguru import logger
-from dotenv import load_dotenv
 
 from config import ADMIN_COMMANDS, ADMINS, USER_COMMANDS
-
-load_dotenv()
-
 from bot import handlers, database, logging
 from bot.misc import dp, bot
 
 
-async def set_commands(bot: Bot):
+async def set_commands(telegram_bot: Bot):
     try:
-        await bot.set_my_commands(USER_COMMANDS, scope=BotCommandScopeDefault())
+        await telegram_bot.set_my_commands(USER_COMMANDS, scope=BotCommandScopeDefault())
         for admin_user_id in ADMINS:
-            await bot.set_my_commands(ADMIN_COMMANDS, scope=BotCommandScopeChat(chat_id=admin_user_id))
+            await telegram_bot.set_my_commands(ADMIN_COMMANDS, scope=BotCommandScopeChat(chat_id=admin_user_id))
         logger.info("Commands set successfully")
     except Exception as e:
         logger.error(f"Error setting commands: {e}")

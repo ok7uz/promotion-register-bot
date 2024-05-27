@@ -3,6 +3,7 @@ from loguru import logger
 from bot.models import BlockedUser, Promo, User
 from tortoise.exceptions import DoesNotExist
 
+
 async def create_user(user_id: int, name: str, phone_number: str, address: str) -> Optional[User]:
     """
     Create a new user in the database.
@@ -29,6 +30,7 @@ async def create_user(user_id: int, name: str, phone_number: str, address: str) 
         logger.error(f'Failed to create user #{user_id}: {e}')
         return None
 
+
 async def user_exists(user_id: int) -> bool:
     """
     Check if a user exists in the database.
@@ -44,6 +46,7 @@ async def user_exists(user_id: int) -> bool:
     except Exception as e:
         logger.error(f'Failed to check user existence for #{user_id}: {e}')
         return False
+
 
 async def get_user(user_id: int) -> Optional[User]:
     """
@@ -64,6 +67,7 @@ async def get_user(user_id: int) -> Optional[User]:
         logger.error(f'Failed to get user #{user_id}: {e}')
         return None
 
+
 async def get_all_users():
     """
     Get all users from the database.
@@ -76,6 +80,7 @@ async def get_all_users():
     except Exception as e:
         logger.error(f'Failed to get all users: {e}')
         return []
+
 
 async def delete_all_data():
     """

@@ -1,6 +1,7 @@
 from loguru import logger
 from bot.models import BlockedUser
 
+
 async def create_blocked_user(phone_number: str):
     """
     Create a blocked user entry in the database.
@@ -18,6 +19,7 @@ async def create_blocked_user(phone_number: str):
     except Exception as e:
         logger.error(f'Failed to create blocked user: {e}')
         raise
+
 
 async def is_user_blocked(phone_number: str) -> bool:
     """

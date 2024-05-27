@@ -1,6 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from bot.texts import SEND_PHONE_NUMBER_TEXT, SIGN_UP_TEXT, ENTER_PROMO_TEXT
 
+
 def create_registration_keyboard():
     """
     Create a reply keyboard with a button for user registration.
@@ -11,6 +12,7 @@ def create_registration_keyboard():
     return ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True,
                                keyboard=[[KeyboardButton(text=SIGN_UP_TEXT)]])
 
+
 def create_promo_keyboard():
     """
     Create a reply keyboard with a button for entering a promo code.
@@ -20,6 +22,7 @@ def create_promo_keyboard():
     """
     return ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True,
                                keyboard=[[KeyboardButton(text=ENTER_PROMO_TEXT)]])
+
 
 def create_contact_keyboard():
     """

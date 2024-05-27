@@ -16,6 +16,7 @@ TORTOISE_ORM = {
     },
 }
 
+
 async def setup() -> None:
     """
     Set up the Tortoise ORM with the defined configuration.
@@ -34,6 +35,7 @@ async def setup() -> None:
     except (DBConnectionError, ConfigurationError) as e:
         logger.error(f"Error during database setup: {e}")
         raise
+
 
 async def close() -> None:
     """

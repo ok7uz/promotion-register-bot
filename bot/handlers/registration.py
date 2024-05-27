@@ -35,7 +35,8 @@ async def register_user(callback_query: CallbackQuery, state: FSMContext):
     await sleep(0.2)
     await message.delete()
     if await user_exists(callback_query.from_user.id):
-        await message.answer(SIGNED_UP_TEXT.format(callback_query.from_user.full_name), reply_markup=ReplyKeyboardRemove())
+        await message.answer(SIGNED_UP_TEXT.format(callback_query.from_user.full_name),
+                             reply_markup=ReplyKeyboardRemove())
     else:
         await message.answer(ENTER_NAME_TEXT, reply_markup=ReplyKeyboardRemove())
         await state.set_state(RegistrationStates.name)

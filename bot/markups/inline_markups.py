@@ -20,6 +20,7 @@ def create_channels_keyboard():
     buttons.append([InlineKeyboardButton(text=ENTER_ONE_MORE_PROMO_TEXT, callback_data=promo_callback_data)])
     return InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, inline_keyboard=buttons)
 
+
 def create_promo_keyboard():
     """
     Create an inline keyboard with a button for entering a promo code.
@@ -28,7 +29,9 @@ def create_promo_keyboard():
         InlineKeyboardMarkup: The created inline keyboard markup.
     """
     return InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True,
-                                inline_keyboard=[[InlineKeyboardButton(text=ENTER_PROMO_TEXT, callback_data=promo_callback_data)]])
+                                inline_keyboard=[[InlineKeyboardButton(text=ENTER_PROMO_TEXT,
+                                                                       callback_data=promo_callback_data)]])
+
 
 def create_registration_keyboard():
     """
@@ -38,4 +41,5 @@ def create_registration_keyboard():
         InlineKeyboardMarkup: The created inline keyboard markup.
     """
     return InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True,
-                                inline_keyboard=[[InlineKeyboardButton(text=SIGN_UP_TEXT, callback_data=register_callback_data)]])
+                                inline_keyboard=[[InlineKeyboardButton(text=SIGN_UP_TEXT,
+                                                                       callback_data=register_callback_data)]])
