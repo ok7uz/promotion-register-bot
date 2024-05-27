@@ -26,6 +26,7 @@ async def on_startup():
         logger.info("Configuring handlers ...")
         await handlers.setup(dp)
         logger.info("Startup complete")
+        logger.info('Admins: {}'.format(', '.join(map(str, ADMINS))))
     except Exception as e:
         logger.error(f"Error during startup: {e}")
 
