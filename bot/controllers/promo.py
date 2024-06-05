@@ -1,5 +1,5 @@
 from loguru import logger
-from bot.models import Promo, User
+from bot.models import Promo, User, Code
 
 
 async def create_promo(user_id: int, file_id: str, code: str):
@@ -15,13 +15,15 @@ async def create_promo(user_id: int, file_id: str, code: str):
         Promo: The newly created promo object.
     """
     try:
+        print(await Promo.all())
         promos = await Promo.all().order_by('special_code')
         last_promo_special_code = promos[-1].special_code if await Promo.exists() else 0
         new_special_code = str(int(last_promo_special_code) + 1).zfill(6)
+        code_instance = await Code.get(code=code)
         new_promo = await Promo.create(
             user_id=user_id,
             file_id=file_id,
-            code=code,
+            code=code_instance,
             special_code=new_special_code
         )
         logger.success(f'Promo #{new_promo.special_code} created successfully.')
@@ -80,7 +82,7 @@ async def get_all_promos():
                 'Ism': promo.user.name,
                 'Telefon raqam': promo.user.phone_number,
                 'Manzil': promo.user.address,
-                'PROMO Kod': promo.code,
+                'PROMO Kod': promo.code_id,
                 'Maxsus kod': promo.special_code,
                 'file_id': promo.file_id,
                 'Rasm': None

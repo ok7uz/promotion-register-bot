@@ -1,7 +1,7 @@
 # Command Descriptions
-START_COMMAND_DESCRIPTION = "Botni ishga tushurish"
-MYPROMOS_COMMAND_DESCRIPTION = "Promo kodlaringiz roʻyxati"
-HELP_COMMAND_DESCRIPTION = "Admin bilan bogʻlanish"
+START_COMMAND_DESCRIPTION = "🤖 Botni ishga tushurish"
+MYPROMOS_COMMAND_DESCRIPTION = "🔖 Promo kodlaringiz roʻyxati"
+HELP_COMMAND_DESCRIPTION = "👤 Admin bilan bogʻlanish"
 EXPORT_COMMAND_DESCRIPTION = "Ma'lumotlarni olish"
 BLOCK_COMMAND_DESCRIPTION = "Foydalanuvchilarni blok qilish"
 
@@ -28,6 +28,7 @@ PHOTO_SAVED_TEXT = "🖼 Rasm saqlandi"
 ENTER_PROMO_CODE_TEXT = "🎟 Promo kodni kiriting"
 DATA_SAVED_TEXT = "✅ Ma'lumotlar saqlandi"
 SPECIAL_CODE_TEXT = '<b>❇️ Aksiyada qatnashish uchun maxsus kodingiz:</b> <code>{}</code>'
+CODE_NOT_FOUND_TEXT = '<b>❌ Bunday promo kod topilmadi. Qaytadan urinib koʻring</b>'
 
 # User Info Texts
 USERS_COUNT_TEXT = '👤 <b>Foydalanuvchilar soni:</b> {} ta'
@@ -66,3 +67,5 @@ INFO_TEXT = (
     "<b>📞 Telefon raqam:</b>  {}\n"
     "<b>🏠 Yashash manzil:</b>  {}"
 )
+ORDER_BUTTON_TEXT = '🛍 Buyurtma berish'
+ORDER_TEXT = '<b>Buyurtma berish uchun quyidagi tugmani bosing 👇</b>'

@@ -1,6 +1,6 @@
 from typing import Optional
 from loguru import logger
-from bot.models import BlockedUser, Promo, User
+from bot.models import BlockedUser, Promo, User, Code
 from tortoise.exceptions import DoesNotExist
 
 

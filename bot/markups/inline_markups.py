@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from bot.texts import ENTER_ONE_MORE_PROMO_TEXT, ENTER_PROMO_TEXT, SIGN_UP_TEXT
-from config import CHANNELS
+from bot.texts import ENTER_ONE_MORE_PROMO_TEXT, ENTER_PROMO_TEXT, SIGN_UP_TEXT, ORDER_BUTTON_TEXT
+from config import CHANNELS, ORDER_CHANNEL_LINK
 
 promo_callback_data = 'add-promo'
 register_callback_data = 'register'
@@ -17,7 +17,13 @@ def create_channels_keyboard():
     buttons = [
         [InlineKeyboardButton(text=channel['name'], url=channel['link'])] for channel in CHANNELS
     ]
+    buttons.append([InlineKeyboardButton(text=ORDER_BUTTON_TEXT, url=ORDER_CHANNEL_LINK)])
     buttons.append([InlineKeyboardButton(text=ENTER_ONE_MORE_PROMO_TEXT, callback_data=promo_callback_data)])
+    return InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, inline_keyboard=buttons)
+
+
+def create_order_keyboard():
+    buttons = [[InlineKeyboardButton(text=ORDER_BUTTON_TEXT, url=ORDER_CHANNEL_LINK)]]
     return InlineKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, inline_keyboard=buttons)
 
 

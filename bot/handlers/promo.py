@@ -3,6 +3,7 @@ from aiogram import Router
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from bot.controllers.blocked_user import is_user_blocked
+from bot.controllers.code import code_exists
 from bot.controllers.promo import create_promo, promo_exists
 from bot.controllers.user import get_user, user_exists
 from bot.markups.inline_markups import (
@@ -86,8 +87,15 @@ async def register_promo_code(message: Message, state: FSMContext):
     await state.update_data(code=promo_code)
     promo_data = await state.get_data()
     promo_code_exists = await promo_exists(promo_code)
+    is_code_valid = await code_exists(promo_code)
+    print(is_code_valid)
 
-    if not promo_code_exists:
+    if not is_code_valid:
+        bot.send_chat_action(message.chat.id, 'typing')
+        await sleep(0.2)
+        await message.answer(CODE_NOT_FOUND_TEXT, reply_markup=create_promo_keyboard())
+        return await state.clear()
+    elif not promo_code_exists:
         new_promo = await create_promo(user_id=message.from_user.id, **promo_data)
         await message.answer(PROMO_SAVED_TEXT)
         await bot.send_chat_action(message.chat.id, 'typing')

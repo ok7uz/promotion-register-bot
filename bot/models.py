@@ -19,13 +19,27 @@ class User(Model):
         return f"[{self.id}] {self.name}"
 
 
+class Code(Model):
+    """
+    Code model representing a code.
+    """
+    code = fields.CharField(max_length=16, pk=True, unique=True)
+
+    class Meta:
+        table = 'codes'
+        indexes = ["code"]
+
+    def __str__(self) -> str:
+        return self.code
+
+
 class Promo(Model):
     """
     Promo model representing a promotional code associated with a user.
     """
     user = fields.ForeignKeyField('models.User', related_name='promos', on_delete=fields.CASCADE)
     file_id = fields.CharField(max_length=128)
-    code = fields.CharField(max_length=16, unique=True)
+    code = fields.OneToOneField('models.Code', related_name='promo', on_delete=fields.CASCADE)
     special_code = fields.CharField(max_length=6, unique=True)
 
     class Meta:

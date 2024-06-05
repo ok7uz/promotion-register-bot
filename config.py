@@ -3,9 +3,9 @@ from dotenv import load_dotenv
 from aiogram.types import BotCommand
 from typing import List, Dict, Any
 
-from bot.texts import (START_COMMAND_DESCRIPTION, MYPROMOS_COMMAND_DESCRIPTION, 
-                       HELP_COMMAND_DESCRIPTION, EXPORT_COMMAND_DESCRIPTION, 
-                       BLOCK_COMMAND_DESCRIPTION)
+from bot.texts import (START_COMMAND_DESCRIPTION, MYPROMOS_COMMAND_DESCRIPTION,
+                       HELP_COMMAND_DESCRIPTION, EXPORT_COMMAND_DESCRIPTION,
+                       BLOCK_COMMAND_DESCRIPTION, ORDER_BUTTON_TEXT)
 
 load_dotenv()
 
@@ -27,12 +27,14 @@ ADMIN_USERNAME: str = 'chikako_admin_1'
 
 USER_COMMANDS: List[BotCommand] = [
     BotCommand(command="/start", description=START_COMMAND_DESCRIPTION),
+    BotCommand(command="/order", description=ORDER_BUTTON_TEXT),
     BotCommand(command="/mypromos", description=MYPROMOS_COMMAND_DESCRIPTION),
     BotCommand(command="/help", description=HELP_COMMAND_DESCRIPTION),
 ]
 
 ADMIN_COMMANDS: List[BotCommand] = [
     BotCommand(command="/start", description=START_COMMAND_DESCRIPTION),
+    BotCommand(command="/order", description=ORDER_BUTTON_TEXT),
     BotCommand(command="/mypromos", description=MYPROMOS_COMMAND_DESCRIPTION),
     BotCommand(command="/help", description=HELP_COMMAND_DESCRIPTION),
     BotCommand(command="/export", description=EXPORT_COMMAND_DESCRIPTION),
@@ -49,3 +51,6 @@ CHANNELS: List[Dict[str, Any]] = [
         'link': 'https://www.instagram.com/chikako_bukhara?igsh=bGhlcHM5amUxdmwx'
     }
 ]
+
+ORDER_CHANNEL_LINK = 'https://t.me/URIK_MARKET_BOT'
+

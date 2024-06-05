@@ -8,7 +8,7 @@ from aiogram.filters import CommandStart, Command
 from bot.controllers.blocked_user import is_user_blocked
 from bot.controllers.promo import get_user_promos, get_all_promos
 from bot.controllers.user import delete_all_data, get_user, user_exists
-from bot.markups.inline_markups import create_promo_keyboard, create_registration_keyboard
+from bot.markups.inline_markups import create_promo_keyboard, create_registration_keyboard, create_order_keyboard
 from bot.misc import bot
 from bot.states import BlockStates
 from bot.texts import *
@@ -18,7 +18,7 @@ from config import ADMIN_USERNAME, ADMINS
 command_router = Router()
 
 
-@command_router.message(CommandStart())
+@command_router.message(Command('start'))
 async def start_command(message: Message):
     user = await get_user(message.from_user.id)
     if user and await is_user_blocked(user.phone_number):
@@ -35,6 +35,13 @@ async def start_command(message: Message):
         await message.answer(FOR_ENTER_PROMO_TEXT, reply_markup=create_promo_keyboard())
 
 
+@command_router.message(Command('order'))
+async def start_command(message: Message):
+    await bot.send_chat_action(message.chat.id, 'typing')
+    await sleep(0.2)
+    await message.answer(ORDER_TEXT, reply_markup=create_order_keyboard())
+
+
 @command_router.message(Command('mypromos'))
 async def list_command(message: Message):
     user = await get_user(message.from_user.id)
@@ -45,7 +52,7 @@ async def list_command(message: Message):
     if count:
         text = USER_PROMOS_COUNT_TEXT.format(count)
         for promo in user_promos:
-            text += PROMO_TEXT.format(promo.special_code, promo.code)
+            text += PROMO_TEXT.format(promo.special_code, promo.code_id)
         return await message.answer(text)
     await message.answer(NO_PROMOS_TEXT)
 
