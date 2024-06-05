@@ -93,7 +93,7 @@ async def register_promo_code(message: Message, state: FSMContext):
     if not is_code_valid:
         bot.send_chat_action(message.chat.id, 'typing')
         await sleep(0.2)
-        await message.answer(CODE_NOT_FOUND_TEXT)
+        return await message.answer(CODE_NOT_FOUND_TEXT)
     elif not promo_code_exists:
         new_promo = await create_promo(user_id=message.from_user.id, **promo_data)
         await message.answer(PROMO_SAVED_TEXT)
