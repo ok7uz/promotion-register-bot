@@ -53,3 +53,11 @@ async def delete_code(code: str):
         await code.delete()
     except Exception as e:
         logger.error(f'Failed to delete code: {e}')
+
+
+async def get_all_codes():
+    try:
+        return await Promo.all()
+    except Exception as e:
+        logger.error(f'Failed to get all promos: {e}')
+        return []

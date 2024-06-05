@@ -83,7 +83,7 @@ async def register_promo_code(message: Message, state: FSMContext):
     """
     await bot.send_chat_action(message.chat.id, 'typing')
     await sleep(0.2)
-    promo_code = message.text
+    promo_code = message.text.upper()
     await state.update_data(code=promo_code)
     promo_data = await state.get_data()
     promo_code_exists = await promo_exists(promo_code)
