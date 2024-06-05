@@ -28,7 +28,7 @@ PHOTO_SAVED_TEXT = "🖼 Rasm saqlandi"
 ENTER_PROMO_CODE_TEXT = "🎟 Promo kodni kiriting"
 DATA_SAVED_TEXT = "✅ Ma'lumotlar saqlandi"
 SPECIAL_CODE_TEXT = '<b>❇️ Aksiyada qatnashish uchun maxsus kodingiz:</b> <code>{}</code>'
-CODE_NOT_FOUND_TEXT = '<b>❌ Bunday promo kod topilmadi. Qaytadan urinib koʻring</b>'
+CODE_NOT_FOUND_TEXT = '<b>❌ Bunday promo kod topilmadi. Kodni tekshirib, qaytadan kiriting</b>'
 
 # User Info Texts
 USERS_COUNT_TEXT = '👤 <b>Foydalanuvchilar soni:</b> {} ta'
