@@ -1,4 +1,5 @@
 # Command Descriptions
+# Command Descriptions
 START_COMMAND_DESCRIPTION = "🤖 Botni ishga tushurish"
 MYPROMOS_COMMAND_DESCRIPTION = "🔖 Promo kodlaringiz roʻyxati"
 HELP_COMMAND_DESCRIPTION = "👤 Admin bilan bogʻlanish"
@@ -36,7 +37,7 @@ FOR_ENTER_PROMO_TEXT = f"Promo kodni kiritish uchun quyidagi <b>{ENTER_PROMO_TEX
 PROMO_SAVED_TEXT = "✅ Promo vaucher ma'lumotlar saqlandi"
 PROMO_HAS_BEEN_USED = (
     '❗️ <b>Bu promo kod avval ishlatilgan. Haqiqatdan mahsulot sizda boʻlsa kuponni videoga olib '
-    'bizga yuboring <a href="{}">ADMIN</a></b>'
+    'bizga yuboring: {}'
 )
 USER_PROMOS_COUNT_TEXT = "<b>Siz kiritgan promolar soni {} ta</b>\n\n"
 NO_PROMOS_TEXT = "<b>❌ Siz hali promo kiritmagansiz</b>"
