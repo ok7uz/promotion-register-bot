@@ -2,6 +2,7 @@ from asyncio import sleep
 from aiogram import Router
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
+from aiogram.exceptions import TelegramBadRequest
 from bot.controllers.blocked_user import is_user_blocked
 from bot.controllers.code import code_exists
 from bot.controllers.promo import create_promo, promo_exists
@@ -36,7 +37,10 @@ async def enter_promo(callback_query: CallbackQuery, state: FSMContext):
         return
     await bot.send_chat_action(message.chat.id, 'typing')
     await sleep(0.2)
-    await message.delete()
+    try:
+        await message.delete()
+    except TelegramBadRequest:
+        pass
     if await user_exists(callback_query.from_user.id):
         await message.answer(ENTER_PROMO_PHOTO_TEXT)
         await state.set_state(PromoStates.photo)
