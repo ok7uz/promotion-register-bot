@@ -41,7 +41,6 @@ class Promo(Model):
     file_id = fields.CharField(max_length=128)
     code = fields.OneToOneField('models.Code', related_name='promo', on_delete=fields.CASCADE)
     special_code = fields.CharField(max_length=6, unique=True)
-    date = fields.DatetimeField(auto_now_add=True)
 
     class Meta:
         table = 'promo'
