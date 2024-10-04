@@ -4,6 +4,7 @@ from .block_user import router
 from .commands import command_router
 from .registration import registration_router
 from .promo import promo_router
+from .send_message import message_router
 
 
 async def setup(dp: Dispatcher):
@@ -11,5 +12,6 @@ async def setup(dp: Dispatcher):
         command_router,
         registration_router,
         promo_router,
-        router
+        router,
+        message_router
     )

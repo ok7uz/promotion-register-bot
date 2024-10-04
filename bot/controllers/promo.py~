@@ -15,6 +15,7 @@ async def create_promo(user_id: int, file_id: str, code: str):
         Promo: The newly created promo object.
     """
     try:
+        print(await Promo.all())
         promos = await Promo.all().order_by('special_code')
         last_promo_special_code = promos[-1].special_code if await Promo.exists() else 0
         new_special_code = str(int(last_promo_special_code) + 1).zfill(6)

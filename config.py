@@ -5,7 +5,7 @@ from typing import List, Dict, Any
 
 from bot.texts import (START_COMMAND_DESCRIPTION, MYPROMOS_COMMAND_DESCRIPTION,
                        HELP_COMMAND_DESCRIPTION, EXPORT_COMMAND_DESCRIPTION,
-                       BLOCK_COMMAND_DESCRIPTION, ORDER_BUTTON_TEXT)
+                       BLOCK_COMMAND_DESCRIPTION, ORDER_BUTTON_TEXT, SEND_COMMAND_DESCRIPTION)
 
 load_dotenv()
 
@@ -39,6 +39,7 @@ ADMIN_COMMANDS: List[BotCommand] = [
     BotCommand(command="/help", description=HELP_COMMAND_DESCRIPTION),
     BotCommand(command="/export", description=EXPORT_COMMAND_DESCRIPTION),
     BotCommand(command="/block", description=BLOCK_COMMAND_DESCRIPTION),
+    BotCommand(command="/send", description=SEND_COMMAND_DESCRIPTION),
 ]
 
 CHANNELS: List[Dict[str, Any]] = [

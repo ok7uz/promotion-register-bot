@@ -4,6 +4,7 @@ MYPROMOS_COMMAND_DESCRIPTION = "🔖 Promo kodlaringiz roʻyxati"
 HELP_COMMAND_DESCRIPTION = "👤 Admin bilan bogʻlanish"
 EXPORT_COMMAND_DESCRIPTION = "Ma'lumotlarni olish"
 BLOCK_COMMAND_DESCRIPTION = "Foydalanuvchilarni blok qilish"
+SEND_COMMAND_DESCRIPTION = 'Foydalanuvchilarga xabar yuborish'
 
 # Button Texts
 SIGN_UP_TEXT = "👤 Roʻyxatdan oʻtish"
@@ -69,3 +70,5 @@ INFO_TEXT = (
 )
 ORDER_BUTTON_TEXT = '🛍 Buyurtma berish'
 ORDER_TEXT = '<b>Buyurtma berish uchun quyidagi tugmani bosing 👇</b>'
+
+SEND_MESSAGE_TEXT_TEXT = 'Foydalanuvchilarga yuboriladigan xabarni kiriting'

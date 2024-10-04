@@ -17,16 +17,6 @@ registration_router = Router()
 
 @registration_router.callback_query(lambda query: query.data == register_callback_data)
 async def register_user(callback_query: CallbackQuery, state: FSMContext):
-    """
-    Handle callback query to register user.
-
-    Args:
-        callback_query (CallbackQuery): The callback query.
-        state (FSMContext): The FSM context.
-
-    Returns:
-        None
-    """
     message = callback_query.message
     user = await get_user(message.from_user.id)
     if user and await is_user_blocked(user.phone_number):
@@ -44,16 +34,6 @@ async def register_user(callback_query: CallbackQuery, state: FSMContext):
 
 @registration_router.message(RegistrationStates.name)
 async def register_name(message: Message, state: FSMContext):
-    """
-    Register user's name.
-
-    Args:
-        message (Message): The message object.
-        state (FSMContext): The FSM context.
-
-    Returns:
-        None
-    """
     await bot.send_chat_action(message.chat.id, 'typing')
     await sleep(0.2)
     user_name = message.text
@@ -64,16 +44,6 @@ async def register_name(message: Message, state: FSMContext):
 
 @registration_router.message(RegistrationStates.phone)
 async def register_phone_number(message: Message, state: FSMContext):
-    """
-    Register user's phone number.
-
-    Args:
-        message (Message): The message object.
-        state (FSMContext): The FSM context.
-
-    Returns:
-        None
-    """
     await bot.send_chat_action(message.chat.id, 'typing')
     await sleep(0.2)
     user_phone_number = message.contact.phone_number

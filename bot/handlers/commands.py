@@ -10,7 +10,7 @@ from bot.controllers.promo import get_user_promos, get_all_promos
 from bot.controllers.user import delete_all_data, get_user, user_exists
 from bot.markups.inline_markups import create_promo_keyboard, create_registration_keyboard, create_order_keyboard
 from bot.misc import bot
-from bot.states import BlockStates
+from bot.states import BlockStates, MessageStates
 from bot.texts import *
 from bot.utils import save_to_excel
 from config import ADMIN_USERNAME, ADMINS
@@ -113,3 +113,14 @@ async def delete_data_command(message: Message, state: FSMContext):
     except Exception as e:
         # Handle any exceptions here, log them, and potentially notify the user of an error.
         logger.error(f"Error occurred while deleting data: {e}")
+
+
+@command_router.message(Command('send'))
+async def delete_data_command(message: Message, state: FSMContext):
+    if message.from_user.id not in ADMINS:
+        return
+
+    await bot.send_chat_action(message.chat.id, 'typing')
+    await sleep(0.2)
+    await message.answer(SEND_MESSAGE_TEXT_TEXT)
+    await state.set_state(MessageStates.get_message)

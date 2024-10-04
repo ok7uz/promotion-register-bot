@@ -1,4 +1,8 @@
+import io
+import os
+
 import pandas as pd
+from PIL import Image as PILImage
 from openpyxl.drawing.image import Image
 
 from bot.misc import bot
@@ -39,17 +43,22 @@ async def save_to_excel(df: pd.DataFrame, file_name: str) -> None:
                     try:
                         file = await bot.get_file(file_id)
                         image = await bot.download_file(file.file_path)
+                        temp_image_name = f'temp_{index}.png'
                         if image:
-                            img = Image(image)
+                            img = PILImage.open(image)
+                            img.thumbnail((img.height // 3, img.width // 3), PILImage.Resampling.LANCZOS)
+                            img.save(temp_image_name)
+
+                            img = Image(temp_image_name)
                             old_width = img.width
                             img.width = img_width
                             img.height = int(img.height * img.width / old_width)
                             img.anchor = f'F{index + 2}'
                             worksheet.add_image(img)
                             worksheet.row_dimensions[index + 2].height = img.height * 3 // 4
+                            os.remove(temp_image_name)
                     except Exception as e:
                         print(f"Failed to process image for file_id {file_id}: {e}")
-            # The Excel writer context manager ensures the file is saved and closed properly
 
     except Exception as e:
         print(f"Failed to save DataFrame to Excel: {e}")

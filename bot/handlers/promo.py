@@ -92,7 +92,6 @@ async def register_promo_code(message: Message, state: FSMContext):
     promo_data = await state.get_data()
     promo_code_exists = await promo_exists(promo_code)
     is_code_valid = await code_exists(promo_code)
-    print(is_code_valid)
 
     if not is_code_valid:
         bot.send_chat_action(message.chat.id, 'typing')

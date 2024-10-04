@@ -23,3 +23,7 @@ class BlockStates(StatesGroup):
     States for blocking users.
     """
     phone = State()
+
+
+class MessageStates(StatesGroup):
+    get_message = State()
