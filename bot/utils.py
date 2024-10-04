@@ -56,7 +56,7 @@ async def save_to_excel(df: pd.DataFrame, file_name: str) -> None:
                             img.anchor = f'F{index + 2}'
                             worksheet.add_image(img)
                             worksheet.row_dimensions[index + 2].height = img.height * 3 // 4
-                            os.remove(temp_image_name)
+                        # os.remove(temp_image_name)
                     except Exception as e:
                         print(f"Failed to process image for file_id {file_id}: {e}")
 
