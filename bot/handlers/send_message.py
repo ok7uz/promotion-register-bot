@@ -17,10 +17,15 @@ async def register_promo_photo(message: Message, state: FSMContext):
     await sleep(0.2)
 
     users = await get_all_users()
-    user_count = len(users)
+    count = 0
+
 
     for user in users:
-        await message.send_copy(user.id)
+        try:
+            await message.send_copy(user.id)
+            count += 1
+        except:
+            pass
 
-    await message.answer(f'Xabar <b>{user_count}</b> ta foydalanuvchilarga yuborildi')
+    await message.answer(f'Xabar <b>{count}</b> ta foydalanuvchilarga yuborildi')
     await state.clear()
