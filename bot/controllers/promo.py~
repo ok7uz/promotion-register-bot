@@ -1,5 +1,11 @@
+import datetime
+from datetime import date
+
 from loguru import logger
+from tortoise.expressions import F
 from bot.models import Promo, User, Code
+
+today = date.today()
 
 
 async def create_promo(user_id: int, file_id: str, code: str):
@@ -15,7 +21,6 @@ async def create_promo(user_id: int, file_id: str, code: str):
         Promo: The newly created promo object.
     """
     try:
-        print(await Promo.all())
         promos = await Promo.all().order_by('special_code')
         last_promo_special_code = promos[-1].special_code if await Promo.exists() else 0
         new_special_code = str(int(last_promo_special_code) + 1).zfill(6)
@@ -67,15 +72,15 @@ async def get_user_promos(user_id: int):
         return []
 
 
-async def get_all_promos():
-    """
-    Get all promos from the database.
+async def get_all_promos(month: int = today.month, year: int = today.year):
 
-    Returns:
-        List[Dict]: List of dictionaries containing promo data.
-    """
     try:
-        promos = await Promo.all().prefetch_related('user')
+        start_date = datetime.datetime(year, month, 1)
+        end_date = (start_date + datetime.timedelta(days=32)).replace(day=1)
+        first = await Promo.all().first()
+        print(first.date, start_date)
+        print(await Promo.all(), start_date, end_date, await Promo.filter(date__gte=start_date).all())
+        promos = await Promo.filter(date__gte=start_date, date__lt=end_date).all().prefetch_related('user')
         data = []
         for promo in promos:
             user_data = {

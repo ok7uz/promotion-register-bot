@@ -1,10 +1,12 @@
 from asyncio import sleep
+from datetime import date
+
 from loguru import logger
 import pandas as pd
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, FSInputFile, ReplyKeyboardRemove
-from aiogram.filters import CommandStart, Command
+from aiogram.filters import Command
 from bot.controllers.blocked_user import is_user_blocked
 from bot.controllers.promo import get_user_promos, get_all_promos
 from bot.controllers.user import delete_all_data, get_user, user_exists
@@ -70,13 +72,19 @@ async def export_command(message: Message):
         return
     try:
         promos = await get_all_promos()
+        today = date.today()
+        month, year = today.month, today.year
+        if len(message.text.split()) == 3:
+            command, month, year = message.text.split()
+            month, year = int(month), int(year)
+        promos = await get_all_promos(year=year, month=month)
         if promos:
             msg1 = await message.answer('⏳')
             await bot.send_chat_action(message.chat.id, 'typing')
             await sleep(0.2)
             msg2 = await message.answer(GETTING_READY_TEXT)
             df = pd.DataFrame(promos)
-            excel_file_name = 'data.xlsx'
+            excel_file_name = f'{month}_{year}.xlsx'
             await save_to_excel(df, excel_file_name)
             await bot.send_chat_action(message.chat.id, 'upload_document')
             await msg1.delete()

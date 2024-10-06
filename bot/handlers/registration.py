@@ -46,8 +46,13 @@ async def register_name(message: Message, state: FSMContext):
 async def register_phone_number(message: Message, state: FSMContext):
     await bot.send_chat_action(message.chat.id, 'typing')
     await sleep(0.2)
-    user_phone_number = message.contact.phone_number
-    user_phone_number = '+' + user_phone_number if not user_phone_number.startswith('+') else user_phone_number
+    if message.contact:
+        user_phone_number = message.contact.phone_number
+    elif message.text.startswith('+') or 7 < len(message.text) < 15:
+        user_phone_number = message.text
+    else:
+        await message.answer(ENTER_CORRECT_PHONE_NUMBER_TEXT, reply_markup=ReplyKeyboardRemove())
+        return await state.set_state(RegistrationStates.phone)
     await state.update_data(phone_number=user_phone_number)
     await message.answer(ENTER_ADDRESS_TEXT, reply_markup=ReplyKeyboardRemove())
     await state.set_state(RegistrationStates.address)
