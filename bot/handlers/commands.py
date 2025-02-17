@@ -1,7 +1,5 @@
 from asyncio import sleep
 from datetime import date, datetime, timedelta, timezone
-from random import choices
-from string import ascii_lowercase
 
 from loguru import logger
 import pandas as pd
@@ -10,11 +8,12 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, FSInputFile, ReplyKeyboardRemove
 from aiogram.filters import Command
 from bot.controllers.blocked_user import is_user_blocked
+from bot.controllers.code import create_code, code_exists
 from bot.controllers.promo import get_user_promos, get_all_promos
 from bot.controllers.user import delete_all_data, get_user, user_exists
 from bot.markups.inline_markups import create_promo_keyboard, create_registration_keyboard, create_order_keyboard
 from bot.misc import bot
-from bot.states import BlockStates, MessageStates
+from bot.states import BlockStates, MessageStates, GetCodesFileStates
 from bot.texts import *
 from bot.utils import save_to_excel
 from bot.models import Promo, Code
@@ -199,3 +198,45 @@ async def get_latest(message: Message):
     await sleep(0.2)
     await message.answer((f'<b>Special Code:</b> {latest.special_code}\n'
                           f'<b>Date</b>: {latest.date.astimezone(tz_obj).strftime('%H:%M:%S  %d.%m.%Y')}'))
+
+
+@command_router.message(Command('upload'))
+async def upload_codes(message: Message, state: FSMContext):
+    print(ADMINS)
+    if message.from_user.id not in ADMINS:
+        return
+
+    await message.answer('Send file')
+    await state.set_state(GetCodesFileStates.get_file)
+
+
+@command_router.message(GetCodesFileStates.get_file)
+async def get_file(message: Message, state: FSMContext):
+    document = message.document
+
+    if document:
+        file = await message.bot.get_file(document.file_id)
+        file_path = file.file_path
+        file_data = await message.bot.download_file(file_path)
+
+        codes = file_data.readlines()
+        print(codes[:6])
+        success = 0
+        fail = 0
+
+        for code in codes:
+            code = code.decode('ascii').strip()
+            code = code[:-1] if code[-1] == ';' else code
+            if not await code_exists(code):
+                await create_code(code)
+                success += 1
+            else:
+                fail += 1
+
+        await message.answer(
+            'DONE!\n\n'
+            f'<b>ALL:<b/>: {success + fail}'
+            f'<b>Success:</b> {success}'
+            f'<b>Fail:</b> {fail}'
+        )
+        await state.clear()

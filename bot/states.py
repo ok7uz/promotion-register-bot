@@ -27,3 +27,7 @@ class BlockStates(StatesGroup):
 
 class MessageStates(StatesGroup):
     get_message = State()
+
+
+class GetCodesFileStates(StatesGroup):
+    get_file = State()
