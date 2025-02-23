@@ -13,12 +13,15 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from bot.misc import bot
 
 MAX_IMAGE_SIZE = (800, 800)
-TEMP_DIR  = 'temp_images'
+IMAGE_DIR  = 'images'
 CHUNK_SIZE = 10
 
 
-async def process_single_image(file_id: str, index: int, temp_dir: str) -> str:
-    temp_image_path = Path(temp_dir) / f'temp_{index}.png'
+async def process_single_image(file_id: str, temp_dir: str) -> str:
+    image_path = Path(temp_dir) / f'{file_id}.png'
+
+    if image_path.exists():
+        return str(image_path)
 
     try:
         file = await bot.get_file(file_id)
@@ -29,13 +32,13 @@ async def process_single_image(file_id: str, index: int, temp_dir: str) -> str:
             img.thumbnail(MAX_IMAGE_SIZE, PILImage.Resampling.LANCZOS)
             # Save with optimization
             img.save(
-                temp_image_path,
+                image_path,
                 "PNG",
                 optimize=True,
                 quality=85
             )
         
-        return str(temp_image_path)
+        return str(image_path)
     
     except Exception as e:
         logger.error(f"Error processing image {file_id}: {e}")
@@ -43,8 +46,8 @@ async def process_single_image(file_id: str, index: int, temp_dir: str) -> str:
 
 
 async def save_to_excel(df: pd.DataFrame, file_name: str) -> None:
-    temp_dir = Path(TEMP_DIR)
-    temp_dir.mkdir(exist_ok=True)
+    image_dir = Path(IMAGE_DIR)
+    image_dir.mkdir(exist_ok=True)
 
     try:
         # Drop the 'file_id' column for the DataFrame to be saved
@@ -56,8 +59,8 @@ async def save_to_excel(df: pd.DataFrame, file_name: str) -> None:
         for i in range(0, len(file_ids), CHUNK_SIZE):
             chunk = file_ids[i:i + CHUNK_SIZE]
             tasks = [
-                process_single_image(fid, idx + i, temp_dir)
-                for idx, fid in enumerate(chunk)
+                process_single_image(fid, image_dir)
+                for fid in chunk
             ]
             chunk_results = await asyncio.gather(*tasks)
             image_paths.extend(chunk_results)
@@ -94,15 +97,6 @@ async def save_to_excel(df: pd.DataFrame, file_name: str) -> None:
         logger.error(f"Failed to save DataFrame to Excel: {e}")
         raise
     
-    finally:
-        # Cleanup temp files
-        try:
-            for file in temp_dir.glob("temp_*.png"):
-                file.unlink()
-            temp_dir.rmdir()
-        except Exception as e:
-            logger.error(f"Error cleaning up temp files: {e}")
-
 
 MONTHS = [
     'Yanvar', 'Fevral', 'Mart', 'Aprel',
