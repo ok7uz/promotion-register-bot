@@ -12,7 +12,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot.misc import bot
 
-MAX_IMAGE_SIZE = (800, 800)
+MAX_IMAGE_SIZE = (500, 500)
 IMAGE_DIR  = 'images'
 CHUNK_SIZE = 10
 
