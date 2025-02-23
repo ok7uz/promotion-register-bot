@@ -13,7 +13,8 @@ ROOT_DIR: Path = Path(__file__).resolve().parent.parent
 try:
     local_server = TelegramAPIServer.from_base('http://localhost:8081')
     session = AiohttpSession(api=local_server)
-    bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode='HTML'), session=session)
+    bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode='HTML'))
+    local_bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode='HTML'), session=session)
     storage = MemoryStorage()
     dp = Dispatcher(bot=bot, storage=storage)
 except Exception as e:
