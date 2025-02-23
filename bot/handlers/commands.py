@@ -1,11 +1,12 @@
+import os
 from asyncio import sleep
-from datetime import date, datetime, timedelta, timezone
+from datetime import timedelta, timezone
 
 from loguru import logger
 import pandas as pd
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, FSInputFile, ReplyKeyboardRemove
+from aiogram.types import Message, FSInputFile, ReplyKeyboardRemove, CallbackQuery
 from aiogram.filters import Command
 from bot.controllers.blocked_user import is_user_blocked
 from bot.controllers.code import create_code, code_exists
@@ -13,10 +14,10 @@ from bot.controllers.promo import get_user_promos, get_all_promos
 from bot.controllers.user import delete_all_data, get_user, user_exists
 from bot.markups.inline_markups import create_promo_keyboard, create_registration_keyboard, create_order_keyboard
 from bot.misc import bot
-from bot.states import BlockStates, MessageStates, GetCodesFileStates
+from bot.states import BlockStates, MessageStates, GetCodesFileStates, ExportStates
 from bot.texts import *
-from bot.utils import save_to_excel
-from bot.models import Promo, Code
+from bot.utils import save_to_excel, create_month_keyboard
+from bot.models import Promo
 from config import ADMIN_USERNAME, ADMINS
 
 command_router = Router()
@@ -69,36 +70,66 @@ async def help_command(message: Message):
 
 
 @command_router.message(Command('export'))
-async def export_command(message: Message):
+async def export_command(message: Message, state: FSMContext):
     if message.from_user.id not in ADMINS:
         return
+        
+    await message.answer(
+        "📅 Ma'lumot olish uchun oyni belgilang:",
+        reply_markup=create_month_keyboard()
+    )
+    await state.set_state(ExportStates.select_month)
+
+
+@command_router.callback_query(lambda c: c.data.startswith('month:'))
+async def handle_month_selection(callback: CallbackQuery, state: FSMContext):
+    """Handle month selection and generate Excel file"""
     try:
-        promos = await get_all_promos()
-        today = date.today()
-        month, year = today.month, today.year
-        if len(message.text.split()) == 3:
-            command, month, year = message.text.split()
-            month, year = int(month), int(year)
+        # Parse month and year from callback
+        _, month, year = callback.data.split(':')
+        month, year = int(month), int(year)
+        
+        # Show progress
+        status_msg = await callback.message.edit_text("<b>⏳ Ma'lumotlar tayyotlanyapti ...</b>")
+        
+        # Get promos for selected period
         promos = await get_all_promos(year=year, month=month)
-        if promos:
-            msg1 = await message.answer('⏳')
-            await bot.send_chat_action(message.chat.id, 'typing')
-            await sleep(0.2)
-            msg2 = await message.answer(GETTING_READY_TEXT)
+        if not promos:
+            await status_msg.edit_text("<b>📭 Bu oy uchun ma'lumot mavjud emas</b>")
+            await state.clear()
+            return
+            
+        # Update status and prepare file
+        await status_msg.edit_text(f"<b>📊 {len(promos)} ta promo ma'lumot tayyorlanyapti ...</b>")
+        
+        # Generate Excel file
+        file_name = f'promos_{month:02d}_{year}.xlsx'
+        try:
             df = pd.DataFrame(promos)
-            excel_file_name = f'{month}_{year}.xlsx'
-            await save_to_excel(df, excel_file_name)
-            await bot.send_chat_action(message.chat.id, 'upload_document')
-            await msg1.delete()
-            await msg2.delete()
-            await message.answer_document(FSInputFile(excel_file_name))
-        else:
-            await bot.send_chat_action(message.chat.id, 'typing')
-            await sleep(0.2)
-            await message.answer(NO_DATA_TEXT)
+            await save_to_excel(df, file_name)
+            
+            # Send file
+            await callback.message.answer_document(
+                FSInputFile(file_name),
+                caption=f"<b>📊 {month:02d}/{year} uchun promo kodlar ro'yxati</b>"
+            )
+            
+        finally:
+            # Cleanup
+            try:
+                os.remove(file_name)
+            except OSError:
+                pass
+            
+        await status_msg.delete()
+        await state.clear()
+        
     except Exception as e:
-        # Handle any exceptions here, log them, and potentially notify the user of an error.
-        logger.error(f"Error occurred while exporting data: {e}")
+        logger.error(f"Export error: {e}")
+        await callback.message.edit_text(
+            "❌ Export failed. Please try again later."
+        )
+        await state.clear()
 
 
 @command_router.message(Command('block'))

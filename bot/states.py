@@ -31,3 +31,8 @@ class MessageStates(StatesGroup):
 
 class GetCodesFileStates(StatesGroup):
     get_file = State()
+
+
+class ExportStates(StatesGroup):
+    select_month = State()
+    

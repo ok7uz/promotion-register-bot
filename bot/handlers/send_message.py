@@ -13,12 +13,8 @@ message_router = Router()
 
 @message_router.message(MessageStates.get_message)
 async def register_promo_photo(message: Message, state: FSMContext):
-    await bot.send_chat_action(message.chat.id, 'typing')
-    await sleep(0.2)
-
     users = await get_all_users()
     count = 0
-
 
     for user in users:
         try:
