@@ -13,7 +13,7 @@ from bot.controllers.code import create_code, code_exists
 from bot.controllers.promo import get_user_promos, get_all_promos
 from bot.controllers.user import delete_all_data, get_user, user_exists
 from bot.markups.inline_markups import create_promo_keyboard, create_registration_keyboard, create_order_keyboard
-from bot.misc import bot
+from bot.misc import bot, local_bot
 from bot.states import BlockStates, MessageStates, GetCodesFileStates, ExportStates
 from bot.texts import *
 from bot.utils import save_to_excel, create_month_keyboard
@@ -109,8 +109,9 @@ async def handle_month_selection(callback: CallbackQuery, state: FSMContext):
             await save_to_excel(df, file_name)
             
             # Send file
-            await callback.message.answer_document(
-                FSInputFile(file_name),
+            await local_bot.send_document(
+                chat_id=callback.message.chat.id, 
+                document=FSInputFile(file_name),
                 caption=f"<b>📊 {month:02d}/{year} uchun promo kodlar ro'yxati</b>"
             )
             
