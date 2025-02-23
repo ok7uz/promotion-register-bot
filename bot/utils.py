@@ -21,7 +21,7 @@ async def process_single_image(file_id: str, index: int, temp_dir: str) -> str:
     temp_image_path = Path(temp_dir) / f'temp_{index}.png'
 
     try:
-        image_data = await bot.download_file_by_id(file_id)
+        image_data = await bot.download_file(file_id)
 
         with PILImage.open(image_data) as img:
             # Resize image maintaining aspect ratio
