@@ -2,6 +2,9 @@ import asyncio
 from aiogram import Bot
 from aiogram.types import BotCommandScopeDefault, BotCommandScopeChat
 from loguru import logger
+from aiogram.client.telegram import TelegramAPIServer
+from aiogram.client.session.aiohttp import AiohttpSession
+
 
 from config import ADMIN_COMMANDS, ADMINS, USER_COMMANDS
 from bot import handlers, database, logging
@@ -41,6 +44,9 @@ async def on_shutdown():
 
 
 async def main():
+    local_server = TelegramAPIServer.from_base('http://localhost:8081')
+    session = AiohttpSession(api=local_server)
+
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
     logger.debug("Settings commands ...")
