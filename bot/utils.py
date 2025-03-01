@@ -7,6 +7,7 @@ from pathlib import Path
 from PIL import Image as PILImage
 from openpyxl.drawing.image import Image
 from datetime import date, timedelta
+from dateutil.relativedelta import relativedelta
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
@@ -111,8 +112,7 @@ def create_month_keyboard() -> InlineKeyboardMarkup:
     keyboard = []
     
     for i in range(3):
-        # Get previous month
-        current_date = today.replace(day=1) - timedelta(days=1) * (i * 30)
+        current_date = today.replace(day=1) - relativedelta(months=i)
         month_name = MONTHS[current_date.month - 1]
         callback_data = f"month:{current_date.month}:{current_date.year}"
         
