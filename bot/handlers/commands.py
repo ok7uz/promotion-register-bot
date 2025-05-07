@@ -252,9 +252,10 @@ async def get_file(message: Message, state: FSMContext):
         file_data = await message.bot.download_file(file_path)
 
         codes = file_data.readlines()
-        print(codes[:6])
+
         success = 0
         fail = 0
+        last = None
 
         for code in codes:
             code = code.decode('ascii').strip()
@@ -264,11 +265,13 @@ async def get_file(message: Message, state: FSMContext):
                 success += 1
             else:
                 fail += 1
+            last = code
 
         await message.answer(
             'DONE!\n\n'
             f'<b>ALL:</b>: {success + fail}'
             f'<b>Success:</b> {success}'
             f'<b>Fail:</b> {fail}'
+            f'<b>Last:</b> {last}'
         )
         await state.clear()
