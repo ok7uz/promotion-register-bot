@@ -267,7 +267,7 @@ async def get_file(message: Message, state: FSMContext):
 
         await message.answer(
             'DONE!\n\n'
-            f'<b>ALL:<b/>: {success + fail}'
+            f'<b>ALL:</b>: {success + fail}'
             f'<b>Success:</b> {success}'
             f'<b>Fail:</b> {fail}'
         )
