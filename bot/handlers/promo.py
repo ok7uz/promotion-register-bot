@@ -13,7 +13,7 @@ from bot.markups.inline_markups import (
 from bot.states import PromoStates
 from bot.texts import *
 from config import ADMIN_USERNAME
-from redis import get_promo_count, increment_promo_count
+from redi import get_promo_count, increment_promo_count
 
 promo_router = Router()
 
