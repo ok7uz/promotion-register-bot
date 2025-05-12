@@ -1,4 +1,3 @@
-import aioredis
 from redis import asyncio as aioredis
 from redis import Redis
 from datetime import datetime
