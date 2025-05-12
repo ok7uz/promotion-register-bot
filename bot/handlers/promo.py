@@ -13,6 +13,7 @@ from bot.markups.inline_markups import (
 from bot.states import PromoStates
 from bot.texts import *
 from config import ADMIN_USERNAME
+from redis import get_promo_count, increment_promo_count
 
 promo_router = Router()
 
@@ -37,6 +38,12 @@ async def enter_promo(callback_query: CallbackQuery, state: FSMContext):
         await message.delete()
     except TelegramBadRequest:
         pass
+
+    count = await get_promo_count(callback_query.from_user.id)
+    if count >= 5:
+        await message.answer("<b>❌ 1 oyda faqat 5 ta promo yuborishingiz mumkin.</b>")
+        return
+
     if await user_exists(callback_query.from_user.id):
         await message.answer(ENTER_PROMO_PHOTO_TEXT)
         await state.set_state(PromoStates.photo)
@@ -92,6 +99,7 @@ async def register_promo_code(message: Message, state: FSMContext):
         await message.answer(PROMO_SAVED_TEXT)
         await message.answer(SPECIAL_CODE_TEXT.format(new_promo.special_code))
         await message.answer(CHANNELS_TEXT, reply_markup=create_channels_keyboard())
+        await increment_promo_count(message.from_user.id)
         return await state.clear()
     await message.answer(PROMO_HAS_BEEN_USED.format(ADMIN_USERNAME), reply_markup=create_promo_keyboard())
     return await state.clear()
